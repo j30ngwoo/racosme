@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 .env
 sshKey.pem
+keystore.p12
 
 ### STS ###
 .apt_generated
