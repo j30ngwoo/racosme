@@ -3,6 +3,8 @@ package com.hcellglobal.racosme.review;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class ReviewResponseDto {
@@ -11,6 +13,7 @@ public class ReviewResponseDto {
     private int score;
     private String content;
     private String image;
+    private LocalDateTime updatedAt;
 
     public ReviewResponseDto(ReviewEntity review) {
         this.id = review.getId();
@@ -18,5 +21,6 @@ public class ReviewResponseDto {
         this.score = review.getScore();
         this.content = review.getContent();
         this.image = review.getImage();
+        this.updatedAt = review.getUpdatedAt();
     }
 }
