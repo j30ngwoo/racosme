@@ -1,10 +1,12 @@
 package com.hcellglobal.racosme.review;
 
+import com.hcellglobal.racosme.image.ImageEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "reviews")
@@ -25,10 +27,13 @@ public class ReviewEntity {
     @Column(nullable = false)
     private String content;
 
-    private String image;
-
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    private String instagramUrl;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageEntity> images;
 
     @PrePersist
     public void prePersist() {

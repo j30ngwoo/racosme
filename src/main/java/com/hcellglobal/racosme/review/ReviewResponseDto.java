@@ -1,9 +1,11 @@
 package com.hcellglobal.racosme.review;
 
+import com.hcellglobal.racosme.image.ImageEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +14,8 @@ public class ReviewResponseDto {
     private String nickname;
     private int score;
     private String content;
-    private String image;
+    private String instagramUrl;
+    private List<String> images;
     private LocalDateTime updatedAt;
 
     public ReviewResponseDto(ReviewEntity review) {
@@ -20,7 +23,8 @@ public class ReviewResponseDto {
         this.nickname = review.getNickname();
         this.score = review.getScore();
         this.content = review.getContent();
-        this.image = review.getImage();
+        this.instagramUrl = review.getInstagramUrl();
         this.updatedAt = review.getUpdatedAt();
+        this.images = review.getImages().stream().map(ImageEntity::getUrl).toList();
     }
 }

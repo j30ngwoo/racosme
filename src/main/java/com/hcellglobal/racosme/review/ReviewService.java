@@ -1,5 +1,7 @@
 package com.hcellglobal.racosme.review;
 
+import com.hcellglobal.racosme.image.ImageEntity;
+import com.hcellglobal.racosme.image.ImageRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +13,9 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     public List<ReviewResponseDto> getAllReviews() {
         return reviewRepository.findAll()
@@ -24,9 +29,22 @@ public class ReviewService {
         review.setNickname(requestDto.getNickname());
         review.setScore(requestDto.getScore());
         review.setContent(requestDto.getContent());
-        review.setImage(requestDto.getImage());
+        review.setInstagramUrl(requestDto.getInstagramUrl());
 
-        reviewRepository.save(review);
+        ReviewEntity savedReview = reviewRepository.save(review);
+
+        if (requestDto.getImages() != null) {
+            List<ImageEntity> images = requestDto.getImages()
+                    .stream()
+                    .map(imageUrl -> {
+                        ImageEntity image = new ImageEntity();
+                        image.setUrl(imageUrl);
+                        image.setReview(savedReview); // 연관 설정
+                        return image;
+                    })
+                    .collect(Collectors.toList());
+            imageRepository.saveAll(images);
+        }
     }
 
     public void deleteReview(Long id) {
